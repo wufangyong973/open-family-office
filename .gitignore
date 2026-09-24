@@ -12,6 +12,7 @@ statements/
 secrets/
 *.pem
 *.key
+temp_auto_push.bat
 *.p12
 *.pfx
 *.sqlite
@@ -26,3 +27,5 @@ node_modules/
 build/
 dist/
 artifacts/
+.gitignore
+branch_structure.json

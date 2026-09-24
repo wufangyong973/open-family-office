@@ -1,6 +1,13 @@
 # GitHub Discussions launch material
 
-GitHub Discussions must first be enabled in repository settings.
+The canonical discussion bodies now live in:
+
+- `docs/launch/discussions/welcome.md`
+- `docs/launch/discussions/v0.5.1.md`
+
+After Discussions is enabled, run **Actions → Seed GitHub Discussions → Run workflow**. The workflow discovers the General and Announcements category IDs and skips titles that already exist.
+
+The rendered copy is reproduced below for review.
 
 ## Welcome discussion
 
