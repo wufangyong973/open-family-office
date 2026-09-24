@@ -2,7 +2,7 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.jamesbbbriz/open-family-office",
   "title": "Open Family Office",
-  "description": "Read-only local MCP tools for household balance sheet, cash flow, scenarios, ownership look-through and liquid-sleeve research.",
+  "description": "Read-only household wealth tools for cash flow, scenarios, ownership and portfolio research.",
   "repository": {
     "url": "https://github.com/JamesbbBriz/open-family-office",
     "source": "github"
