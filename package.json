@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build:css": "node scripts/build_css.cjs",
-    "build": "npm run build:css && python scripts/build_site.py",
+    "build": "node api.js && npm run build:css && python scripts/build_site.py",
     "test:browser-math": "node tests/sandbox.test.cjs"
   },
   "devDependencies": {

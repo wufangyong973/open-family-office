@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0",
+  "id": "au-super-household",
+  "name": "Australian superannuation household (synthetic)",
+  "as_of": "2026-09-21",
+  "base_currency": "AUD",
+  "synthetic": true,
+  "entities": [
+    {
+      "id": "household",
+      "label": "Australian household beneficial ownership",
+      "type": "household"
+    },
+    {
+      "id": "super-fund",
+      "label": "Superannuation fund member balance (wrapper)",
+      "type": "account"
+    }
+  ],
+  "assets": [
+    {
+      "id": "cash",
+      "label": "Cash reserve (direct)",
+      "class": "cash",
+      "value": "60000",
+      "currency": "AUD",
+      "ownership_share": "1",
+      "owner_id": "household",
+      "wrapper": "direct",
+      "liquidity_days": 0,
+      "restriction": "none",
+      "investable": true,
+      "liquidation_haircut": "0",
+      "valuation_basis": "market",
+      "valuation_date": "2026-09-21",
+      "evidence_id": "super-input"
+    },
+    {
+      "id": "shares",
+      "label": "Direct shareholding",
+      "class": "equity",
+      "value": "120000",
+      "currency": "AUD",
+      "ownership_share": "1",
+      "owner_id": "household",
+      "wrapper": "direct",
+      "liquidity_days": 2,
+      "restriction": "none",
+      "investable": true,
+      "liquidation_haircut": "0.05",
+      "valuation_basis": "market",
+      "valuation_date": "2026-09-21",
+      "evidence_id": "super-input"
+    },
+    {
+      "id": "super-equities",
+      "label": "Equities inside superannuation",
+      "class": "equity",
+      "value": "160000",
+      "currency": "AUD",
+      "ownership_share": "1",
+      "owner_id": "super-fund",
+      "wrapper": "super",
+      "liquidity_days": 3650,
+      "restriction": "locked",
+      "investable": false,
+      "liquidation_haircut": "0",
+      "valuation_basis": "statement",
+      "valuation_date": "2026-09-21",
+      "evidence_id": "super-input"
+    },
+    {
+      "id": "super-bonds",
+      "label": "Bonds inside superannuation",
+      "class": "bond",
+      "value": "70000",
+      "currency": "AUD",
+      "ownership_share": "1",
+      "owner_id": "super-fund",
+      "wrapper": "super",
+      "liquidity_days": 3650,
+      "restriction": "locked",
+      "investable": false,
+      "liquidation_haircut": "0",
+      "valuation_basis": "statement",
+      "valuation_date": "2026-09-21",
+      "evidence_id": "super-input"
+    },
+    {
+      "id": "super-cash",
+      "label": "Cash inside superannuation",
+      "class": "cash",
+      "value": "20000",
+      "currency": "AUD",
+      "ownership_share": "1",
+      "owner_id": "super-fund",
+      "wrapper": "super",
+      "liquidity_days": 3650,
+      "restriction": "locked",
+      "investable": false,
+      "liquidation_haircut": "0",
+      "valuation_basis": "statement",
+      "valuation_date": "2026-09-21",
+      "evidence_id": "super-input"
+    }
+  ],
+  "liabilities": [
+    {
+      "id": "mortgage",
+      "label": "Home mortgage principal",
+      "type": "mortgage",
+      "value": "400000",
+      "currency": "AUD",
+      "ownership_share": "1",
+      "owner_id": "household",
+      "valuation_date": "2026-09-21",
+      "evidence_id": "super-input"
+    }
+  ],
+  "cashflows": [
+    {
+      "id": "salary",
+      "label": "Net salary",
+      "direction": "in",
+      "amount": "5000",
+      "category": "salary",
+      "nature": "stable",
+      "recurrence": "monthly",
+      "start_date": "2026-10-01",
+      "end_date": null,
+      "currency": "AUD",
+      "evidence_id": "super-input",
+      "amount_basis": "household_net_after_tax"
+    },
+    {
+      "id": "living",
+      "label": "Living expenses",
+      "direction": "out",
+      "amount": "4000",
+      "category": "living_expense",
+      "nature": "stable",
+      "recurrence": "monthly",
+      "start_date": "2026-10-01",
+      "end_date": null,
+      "currency": "AUD",
+      "evidence_id": "super-input",
+      "amount_basis": "household_net_after_tax"
+    }
+  ],
+  "fx": {},
+  "evidence": [
+    {
+      "id": "super-input",
+      "kind": "synthetic",
+      "source": "Bundled fictional Australian superannuation fixture; not a real household or fund",
+      "as_of": "2026-09-21",
+      "note": "All values, future receipts and holdings are invented for deterministic tests. No contribution caps, preservation-age or tax figures are modelled."
+    }
+  ],
+  "risk_preferences": {
+    "willingness": "medium",
+    "note": "Synthetic preference only; no numeric risk-capacity score or suitability conclusion."
+  },
+  "notes": "The superannuation fund is one wrapper holding equities, bonds and cash. Those holdings are the fund's contents, not extra assets: count the balance once and keep the source names. Super is locked, so it raises net worth but does not fund near-term spending. No tax, contribution-cap or preservation-age calculation is invented."
+}

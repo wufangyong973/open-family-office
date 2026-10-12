@@ -17,3 +17,9 @@ Recession: explicit asset markdowns and business income multiplied by 0.40. Imme
 
 `policy.synthetic.json` contains arbitrary test weights. They are not allocation advice.
 `expected/` contains actual engine-generated outputs. Regenerate with `python scripts/build_demo.py`.
+
+`household.superannuation.synthetic.json` is a focused Australian superannuation example: the super fund is
+one wrapper around its equities, bonds and cash. It shows the balance counted in net worth, excluded from
+near-term spendable liquidity, never double-counted, and never turned into a new asset class. See
+[`docs/superannuation-example.md`](../docs/superannuation-example.md) for the plain-language explanation and
+`tests/test_superannuation.py` for the deterministic checks.
