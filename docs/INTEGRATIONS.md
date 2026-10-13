@@ -52,6 +52,14 @@ The default demonstrated methods use SciPy, **not skfolio/PyPortfolioOpt disguis
 | Ownership graph | Explicit DAG and leaf aggregation; rejects double counting/cycles | Supplied ownership values only; not inferred trust/legal ownership |
 | Exposure engine | Separate currency/geography/sector dimensions and unknown proportions | No invented property-cycle beta or cross-asset correlation |
 
+The normalized fund holdings CSV (`ofo import-holdings`) is documented
+field-by-field in
+[`docs/holdings-csv.md`](holdings-csv.md): required columns, how `weight` is
+interpreted, how the unclassified residual is preserved per asset, duplicate
+rejection, and `as_of`/`source` expectations. The documented example is
+[`examples/holdings.synthetic.csv`](../examples/holdings.synthetic.csv), which
+the holdings tests run end to end.
+
 ## Earlier references that are not installation dependencies
 
 **ai-job-search** inspired profile-first workflows and thin pointers; it is not embedded as the finance runtime. **Addepar** informed ownership/position concepts; its proprietary product/API is not a dependency. **Wealthfolio/Ghostfolio** are product/architecture references, not bundled applications or copied AGPL source. No restricted Wealthfolio dataset is shipped. Adding these entire applications would not make this project more complete; it would add overlapping state and unrelated licensing obligations.

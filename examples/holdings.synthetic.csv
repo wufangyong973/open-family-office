@@ -1,0 +1,4 @@
+asset_id,underlying_id,weight,as_of,source
+equity-fund,equity-fund.underlying.dca,0.6,2026-02-01,synthetic-statement
+equity-fund,equity-fund.underlying.small-cap,0.4,2026-02-01,synthetic-statement
+cash-fund,cash-fund.underlying.tbill,0.75,2026-02-01,synthetic-statement

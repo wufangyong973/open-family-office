@@ -125,6 +125,46 @@ class LocalImportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             p=Path(d)/'holdings.csv';p.write_text('asset_id,underlying_id,weight,as_of,source\nfund,a,0.6,2026-01-01,fixture\nfund,a,0.4,2026-01-01,fixture\n')
             self.assertRaises(InputError,holdings_csv,p)
+    def test_holdings_unknown_weight_not_normalized(self):
+        # An asset that sums to less than 1 must keep the residual visible,
+        # per asset, as a string -- it must not be stretched up to 1.0.
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'h.csv'
+            p.write_text('asset_id,underlying_id,weight,as_of,source\nfund,x,0.6,2026-01-01,f\nfund,y,0.15,2026-01-01,f\n')
+            out=holdings_csv(p)
+            self.assertEqual(out['unclassified_weight']['fund'],'0.25')
+            # Fully-classified asset reports zero residual, not a fabricated weight.
+            p.write_text('asset_id,underlying_id,weight,as_of,source\nfund,x,0.5,2026-01-01,f\nfund,y,0.5,2026-01-01,f\n')
+            self.assertEqual(holdings_csv(p)['unclassified_weight']['fund'],'0.0')
+    def test_holdings_fixture_is_valid_and_preserves_residuals(self):
+        # The documented end-to-end synthetic example runs clean through the
+        # import and preserves per-asset residuals (0.25 for the partial asset).
+        fixture=Path(__file__).resolve().parent.parent/'examples'/'holdings.synthetic.csv'
+        out=holdings_csv(fixture)
+        self.assertEqual(out['kind'],'holdings')
+        self.assertEqual(out['verified'],False)
+        self.assertEqual(out['unclassified_weight']['cash-fund'],'0.25')
+        self.assertEqual(out['unclassified_weight']['equity-fund'],'0.0')
+        self.assertEqual(len(out['records']),3)
+        for row in out['records']:
+            self.assertEqual(set(row),{'asset_id','underlying_id','weight','as_of','source'})
+    def test_holdings_reject_weight_out_of_range(self):
+        with tempfile.TemporaryDirectory() as d:
+            for bad in ('1.2','-0.1'):
+                p=Path(d)/'h.csv';p.write_text('asset_id,underlying_id,weight,as_of,source\nfund,a,%s,2026-01-01,f\n'%bad)
+                self.assertRaises(InputError,holdings_csv,p)
+    def test_holdings_reject_bad_as_of(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'h.csv';p.write_text('asset_id,underlying_id,weight,as_of,source\nfund,a,0.5,2026/01/01,f\n')
+            self.assertRaises(ValueError,holdings_csv,p)
+    def test_holdings_reject_leverage_total_over_100(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'h.csv';p.write_text('asset_id,underlying_id,weight,as_of,source\nfund,a,0.6,2026-01-01,f\nfund,b,0.5,2026-01-01,f\n')
+            self.assertRaises(InputError,holdings_csv,p)
+    def test_holdings_reject_wrong_columns(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'h.csv';p.write_text('asset_id,weight,as_of,source\nfund,0.5,2026-01-01,f\n')
+            self.assertRaises(InputError,holdings_csv,p)
     def test_mcp_path_boundary(self):
         with tempfile.TemporaryDirectory() as d:
             root=Path(d);(root/'household.json').write_text('{}')
